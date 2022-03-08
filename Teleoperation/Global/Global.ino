@@ -30,7 +30,7 @@ int MoveForwardMinSpeed   = 85;
 int MoveForwardMaxSpeed   = 110;
 int MoveBackwardMinSpeed  = 85;
 int MoveBackwardMaxSpeed  = 110;
-int TurningSpeed = 102;
+int TurningSpeed = 110;
 
 int ForwardMaxSpeedFlag;
 int BackwardMaxSpeedFlag;
@@ -44,15 +44,15 @@ int LeftTurnMaxSpeedFlag;
 #define RC_SWB_CHANNEL_PIN      22
 
 // CH2 - right longitudinal wheel set
-#define RC_RIGHT_SET_FW_MAX         1985
-#define RC_RIGHT_SET_FW_MIN         1638
-#define RC_RIGHT_SET_BW_MAX         1310
-#define RC_RIGHT_SET_BW_MIN         980
+#define RC_RIGHT_SET_FW_MAX         2200
+#define RC_RIGHT_SET_FW_MIN         1900
+#define RC_RIGHT_SET_BW_MAX         1100
+#define RC_RIGHT_SET_BW_MIN         500
 // CH3 - left longitudinal wheel set
-#define RC_LEFT_SET_FW_MAX          1972
-#define RC_LEFT_SET_FW_MIN          1632
-#define RC_LEFT_SET_BW_MAX          1320
-#define RC_LEFT_SET_BW_MIN          997//1007
+#define RC_LEFT_SET_FW_MAX          2200
+#define RC_LEFT_SET_FW_MIN          1900
+#define RC_LEFT_SET_BW_MAX          1100
+#define RC_LEFT_SET_BW_MIN          500
 // CH5 - SwA range
 #define RC_SWA_HIGH_MAX             2000
 #define RC_SWA_HIGH_MIN             1900

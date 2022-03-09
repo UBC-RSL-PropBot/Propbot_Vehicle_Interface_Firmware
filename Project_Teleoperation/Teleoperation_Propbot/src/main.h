@@ -5,11 +5,6 @@
 #include <Wire.h>
 #include <math.h>
 
-
-/*
-  #define I2C_FASTMODE 1         //Run in fast mode (400 kHz)
-  #define I2C_SLOWMODE 1         //If you do not define the mode it will run at 100kHz with this define set to 1 it will run at 25kHz
-*/
 uint8_t R_F_motorPin         = 13;
 uint8_t R_F_DirectionPin     = 53;
 uint8_t R_F_BrakePin         = 52;

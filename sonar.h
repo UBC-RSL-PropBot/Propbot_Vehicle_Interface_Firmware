@@ -14,12 +14,11 @@
 #define I2C_FASTMODE 1         //Run in fast mode (400 kHz)
 #define I2C_SLOWMODE 1         //If you do not define the mode it will run at 100kHz with this define set to 1 it will run at 25kHz
 */
-
-#include "SoftI2CMaster.h"
+#include <SoftI2CMaster.h>
 
 boolean start_sensor(byte bit8address);
 int read_sensor(byte bit8address);
 boolean change_address(byte oldaddress,byte newaddress);
-void read_the_sensor_example();
+void read_the_sensor_example(int addr);
 
 #endif

@@ -10,50 +10,27 @@
 */
 #include <SoftI2CMaster.h>     //You will need to install this library
 
+
+
 void setup(){
   // Initialize both the serial and I2C bus
   Serial.begin(9600);
   i2c_init();
   pinMode(2,OUTPUT);
-
-  // (OPTIONAL) Check each address for a sensor
-  //address_polling_example();
-  //default_address_change_example();  
-  //change_address(224,218);
-      //Start the sensor and collect any error codes.
   
-  // Your code here
-}
+  }
 
 void loop()
 {
   // (OPTIONAL) Read a sensor at the default address
-  int range;
-  start_sensor(200);
-  delay(100);
-  range = read_sensor(200);   //reading the sensor will return an integer value -- if this value is 0 there was an error
-  Serial.print("R200:");Serial.println(range);
-  start_sensor(214);
-  delay(100);
-  range = read_sensor(214);   //reading the sensor will return an integer value -- if this value is 0 there was an error
-  Serial.print("R214:");Serial.println(range);
-  start_sensor(208);
-  delay(100);
-  range = read_sensor(208);   //reading the sensor will return an integer value -- if this value is 0 there was an error
-  Serial.print("R208:");Serial.println(range);
-  start_sensor(204);
-  delay(100);
-  range = read_sensor(204);   //reading the sensor will return an integer value -- if this value is 0 there was an error
-  Serial.print("R204:");Serial.println(range);  
-  start_sensor(212); 
-  delay(100);
-  range = read_sensor(212);   //reading the sensor will return an integer value -- if this value is 0 there was an error
-  Serial.print("R212:");Serial.println(range);
-  start_sensor(216);
-  delay(100);
-  range = read_sensor(216);   //reading the sensor will return an integer value -- if this value is 0 there was an error
-  Serial.print("R216:");Serial.println(range);
-  
+  //bool pin_status_1 = 0;
+  //pin_status_1 = read_the_sensor_example(212);
+   bool pin_status_2 = 0;
+  pin_status_2 = read_the_sensor_example(214);
+  if (pin_status_2){
+    digitalWrite(2,LOW);
+  }
+  else{digitalWrite(2,HIGH);}
   // Your code here
 
 }
@@ -116,18 +93,19 @@ boolean change_address(byte oldaddress,byte newaddress){
 //////////////////////////////////////////////////////////
 // Read the sensor at the default address //
 //////////////////////////////////////////////////////////
-void read_the_sensor_example(){
+bool read_the_sensor_example(int addr){
   boolean error = 0;  //Create a bit to check for catch errors as needed.
   int range;  
   //Take a range reading at the default address of 224
-  error = start_sensor(214);    //Start the sensor and collect any error codes.
+  error = start_sensor(addr);    //Start the sensor and collect any error codes.
   if (!error){                  //If you had an error starting the sensor there is little point in reading it as you will get old data.
     delay(100);
-    range = read_sensor(214);   //reading the sensor will return an integer value -- if this value is 0 there was an error
+    range = read_sensor(addr);   //reading the sensor will return an integer value -- if this value is 0 there was an error
     Serial.print("R:");Serial.println(range);
-    if (range >100){
-      digitalWrite(2,HIGH);
+    if (range<90 && range>20){
+      return 1;
       }
-     else {digitalWrite(2,LOW);}
+     else {
+     return 0;}
   }
 }

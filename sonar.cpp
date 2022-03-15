@@ -59,14 +59,14 @@ boolean change_address(byte oldaddress,byte newaddress){
 //////////////////////////////////////////////////////////
 // Read the sensor at the default address //
 //////////////////////////////////////////////////////////
-void read_the_sensor_example(){
+void read_the_sensor_example(int addr){
   boolean error = 0;  //Create a bit to check for catch errors as needed.
   int range;  
   //Take a range reading at the default address of 224
-  error = start_sensor(214);    //Start the sensor and collect any error codes.
+  error = start_sensor(addr);    //Start the sensor and collect any error codes.
   if (!error){                  //If you had an error starting the sensor there is little point in reading it as you will get old data.
     delay(100);
-    range = read_sensor(214);   //reading the sensor will return an integer value -- if this value is 0 there was an error
+    range = read_sensor(addr);   //reading the sensor will return an integer value -- if this value is 0 there was an error
     Serial.print("R:");Serial.println(range);
     
   }

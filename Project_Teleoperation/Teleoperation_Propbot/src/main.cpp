@@ -124,7 +124,7 @@ RC_Vals rc_task(){
   if (rc_commands.sw_a < RC_SWA_HIGH_MAX && rc_commands.sw_a > RC_SWA_HIGH_MIN) //Swa triggered
   {
     current_speed = 85;
-    digitalWrite(0,L_F_BrakePin)
+    digitalWrite(0,L_F_BrakePin);
     motor_write(0,L_F_motorPin);
     motor_write(0,R_F_motorPin);
   }

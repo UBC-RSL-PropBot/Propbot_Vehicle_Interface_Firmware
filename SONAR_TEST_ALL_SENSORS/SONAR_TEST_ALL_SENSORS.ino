@@ -9,28 +9,50 @@
 #define I2C_SLOWMODE 1         //If you do not define the mode it will run at 100kHz with this define set to 1 it will run at 25kHz
 */
 #include <SoftI2CMaster.h>     //You will need to install this library
-
-
+int counter = 0;
+int max_count =0;
+int AVG_VAL =2;
+int sensor_val_1=0;
+int sensor_val_2=0;
+int sensor_val_3=0;
+int sensor_val_4=0;
+int sensor_val_5=0;
+int sensor_val_6=0;
 
 void setup(){
   // Initialize both the serial and I2C bus
-  Serial.begin(9600);
-  i2c_init();
+  Serial.begin(9600);  
+  i2c_init();   
   pinMode(2,OUTPUT);
   
-  }
+}
 
 void loop()
 {
   // (OPTIONAL) Read a sensor at the default address
-  //bool pin_status_1 = 0;
-  //pin_status_1 = read_the_sensor_example(212);
-   bool pin_status_2 = 0;
-  pin_status_2 = read_the_sensor_example(214);
-  if (pin_status_2){
-    digitalWrite(2,LOW);
-  }
-  else{digitalWrite(2,HIGH);}
+  sensor_val_1 = 0;//read_the_sensor_example(218);
+  digitalWrite(2,(sensor_val_1|sensor_val_2|sensor_val_3|sensor_val_4|sensor_val_5|sensor_val_6));
+  Serial.print("BOOL:");Serial.println(sensor_val_1);
+  sensor_val_2 = read_the_sensor_example(208);
+  digitalWrite(2,(sensor_val_1|sensor_val_2|sensor_val_3|sensor_val_4|sensor_val_5|sensor_val_6));
+  Serial.print("BOOL:");Serial.println(sensor_val_2);
+  sensor_val_3 = read_the_sensor_example(204);
+  Serial.print("BOOL:");Serial.println(sensor_val_3);
+  digitalWrite(2,(sensor_val_1|sensor_val_2|sensor_val_3|sensor_val_4|sensor_val_5|sensor_val_6));
+  sensor_val_4 = read_the_sensor_example(200);
+  Serial.print("BOOL:");Serial.println(sensor_val_4);
+  digitalWrite(2,(sensor_val_1|sensor_val_2|sensor_val_3|sensor_val_4|sensor_val_5|sensor_val_6));
+  sensor_val_5 = 0;//read_the_sensor_example(212);
+  Serial.print("BOOL:");Serial.println(sensor_val_5);
+  digitalWrite(2,(sensor_val_1|sensor_val_2|sensor_val_3|sensor_val_4|sensor_val_5|sensor_val_6));
+  sensor_val_6 = 0;//read_the_sensor_example(214);
+  //Serial.print("BOOL:");Serial.println(sensor_val_6);
+  digitalWrite(2,(sensor_val_1|sensor_val_2|sensor_val_3|sensor_val_4|sensor_val_5|sensor_val_6));
+  //200 / 204/ 208/218
+  //delay(200);
+  //test_read(200);
+ 
+  
   // Your code here
 
 }
@@ -95,17 +117,33 @@ boolean change_address(byte oldaddress,byte newaddress){
 //////////////////////////////////////////////////////////
 bool read_the_sensor_example(int addr){
   boolean error = 0;  //Create a bit to check for catch errors as needed.
-  int range;  
+  int range;
+  int sensor_range = 0 ;  
   //Take a range reading at the default address of 224
-  error = start_sensor(addr);    //Start the sensor and collect any error codes.
-  if (!error){                  //If you had an error starting the sensor there is little point in reading it as you will get old data.
-    delay(100);
+  for(int i =0; i < AVG_VAL; i++){
+    error = start_sensor(addr);    //Start the sensor and collect any error codes.
+    if (!error){                  //If you had an error starting the sensor there is little point in reading it as you will get old data.
+      delay(100);
+      range = read_sensor(addr);   //reading the sensor will return an integer value -- if this value is 0 there was an error
+      sensor_range += range;
+      //Serial.print("R:");Serial.println(range);
+    }
+  }
+  if ((sensor_range/AVG_VAL)<60 && (sensor_range/AVG_VAL)>20){
+   Serial.print("AVG_VAL:");Serial.print(addr);Serial.print("    ");Serial.println(sensor_range/AVG_VAL);
+    return 1;
+  }
+  else {
+    Serial.print("AVG_VAL:");Serial.print(addr);Serial.print("    ");Serial.println(sensor_range/AVG_VAL);
+    return 0;}
+  }
+
+void test_read(int addr){
+  start_sensor(addr);
+  delay(100);
+  int range;
+  while(1){
     range = read_sensor(addr);   //reading the sensor will return an integer value -- if this value is 0 there was an error
     Serial.print("R:");Serial.println(range);
-    if (range<90 && range>20){
-      return 1;
-      }
-     else {
-     return 0;}
   }
-}
+  }

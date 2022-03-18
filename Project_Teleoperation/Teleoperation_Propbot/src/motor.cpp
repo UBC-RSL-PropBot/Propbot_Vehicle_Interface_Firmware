@@ -1,6 +1,6 @@
 #include "motor.h"
 
-const int motor_delay = 100;
+const int motor_delay = 200;
 unsigned long prev_motor_millis = 0;
 
 int update_speed (int current_speed , int target_speed){

@@ -11,27 +11,27 @@ RC_Vals rc_task();
 int state = 0;
 extern volatile bool autonomy_switch;
 
-//ros::NodeHandle node;
-//std_msgs::UInt8 pwm_left;
-//std_msgs::UInt8 pwm_right;
+ros::NodeHandle node;
+std_msgs::UInt8 pwm_left;
+std_msgs::UInt8 pwm_right;
 
 //Defining Publisher and callback
-//ros::Publisher talker_left("pwm_left", &pwm_left);
-//ros::Publisher talker_right("pwm_right", &pwm_right);
+ros::Publisher talker_left("pwm_left", &pwm_left);
+ros::Publisher talker_right("pwm_right", &pwm_right);
 
-// void callback_left ( const std_msgs::UInt8& msg_left){
-// pwm_left.data = msg_left.data;
-// talker_left.publish( &pwm_left );
-// }
+void callback_left ( const std_msgs::UInt8& msg_left){
+pwm_left.data = msg_left.data;
+talker_left.publish( &pwm_left );
+}
 
-// void callback_right ( const std_msgs::UInt8& msg_right){
-// pwm_right.data = msg_right.data;
-// talker_right.publish( &pwm_right );
-// }
+void callback_right ( const std_msgs::UInt8& msg_right){
+pwm_right.data = msg_right.data;
+talker_right.publish( &pwm_right );
+}
 
 
-// ros::Subscriber<std_msgs::UInt8> listener_left("left_wheel", callback_left);
-// ros::Subscriber<std_msgs::UInt8> listener_right("right_wheel", callback_right);
+ros::Subscriber<std_msgs::UInt8> listener_left("left_wheel", callback_left);
+ros::Subscriber<std_msgs::UInt8> listener_right("right_wheel", callback_right);
 
 
 
@@ -47,17 +47,17 @@ void setup(){
   pinMode(L_F_BrakePin , OUTPUT);
   digitalWrite(L_F_BrakePin, HIGH);
   digitalWrite(R_F_BrakePin, HIGH);
-//   node.initNode();
-// //Configure Subscriber and Publisher
-// node.subscribe(listener_left);
-// node.subscribe(listener_right);
-// node.advertise(talker_left);
-// node.advertise(talker_right);
+  node.initNode();
+//Configure Subscriber and Publisher
+node.subscribe(listener_left);
+node.subscribe(listener_right);
+node.advertise(talker_left);
+node.advertise(talker_right);
 }
 
 void loop()
 {
-  //node.spinOnce();
+  node.spinOnce();
   RC_Vals rc_commands;
   rc_commands = rc_task();
   int sonar_val = digitalRead(2);
@@ -97,8 +97,8 @@ void loop()
         break;
       case 1:
          Serial.println("state 1 : autonomy mode");
-        // analogWrite(L_F_motorPin,pwm_left.data);
-        // analogWrite(R_F_motorPin,pwm_right.data);
+        analogWrite(L_F_motorPin,pwm_left.data);
+        analogWrite(R_F_motorPin,pwm_right.data);
          /* Define and fill wheel motor commands */
         break;
         
@@ -129,8 +129,8 @@ RC_Vals rc_task(){
     digitalWrite(R_F_DirectionPin, LOW);
     int updated_speed = update_speed(current_speed, FWD_MAX_SPEED);
     current_speed = updated_speed;
-    motor_write(updated_speed,L_F_motorPin);
-    motor_write(updated_speed,R_F_motorPin);    
+    motor_write(updated_speed+1,L_F_motorPin);
+    motor_write(updated_speed-1,R_F_motorPin);    
   }
   else if (rc_commands.rc_left < RC_LEFT_SET_BW_MAX && rc_commands.rc_left > RC_LEFT_SET_BW_MIN) //Backward
   {

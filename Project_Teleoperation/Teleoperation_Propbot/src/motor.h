@@ -5,7 +5,7 @@
 #include <stdio.h>
 
 #define FWD_MIN_SPEED      85
-#define FWD_MAX_SPEED      110
+#define FWD_MAX_SPEED      105
 #define BKWD_MIN_SPEED     85
 #define BKWD_MAX_SPEED     110
 #define RIGHT_SPEED        105

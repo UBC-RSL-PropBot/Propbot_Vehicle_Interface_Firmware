@@ -64,6 +64,9 @@ void loop()
   int next_state = state;
   autonomy_switch = (rc_commands.sw_b < RC_SWA_HIGH_MAX && rc_commands.sw_b > RC_SWA_HIGH_MIN);
   bool soft_estop = (rc_commands.sw_a < RC_SWA_HIGH_MAX && rc_commands.sw_a > RC_SWA_HIGH_MIN);
+  pwm_left.data = 2;
+  talker_left.publish( &pwm_left );
+
   switch(state){
     case 0: // TELEOPERATION
       if (sonar_val ==1 || soft_estop){
@@ -88,15 +91,28 @@ void loop()
         }
         break;
   }
+
+  bool changed_state = next_state != state;
+
   state = next_state;
 //determine output
     switch(state){
        case 0:
         Serial.println("state 0 : rc mode");
+        if (changed_state){
+            node.logwarn("Switched to RC mode");
+         }
+        //
+        pwm_left.data = 5;
+        talker_left.publish( &pwm_left );
         rc_commands = rc_task();
         break;
       case 1:
          Serial.println("state 1 : autonomy mode");
+         if (changed_state){
+            node.loginfo("In autonomy mode");
+         }
+         
         analogWrite(L_F_motorPin,pwm_left.data);
         analogWrite(R_F_motorPin,pwm_right.data);
          /* Define and fill wheel motor commands */
@@ -104,6 +120,10 @@ void loop()
         
       case -1:
         Serial.println("state -1 : estop");
+        if (changed_state){
+            node.logerror("Switched to ESTOP mode");
+         }
+        
         current_speed = 80;
         motor_write(0,L_F_motorPin);
         motor_write(0,R_F_motorPin);
@@ -129,8 +149,8 @@ RC_Vals rc_task(){
     digitalWrite(R_F_DirectionPin, LOW);
     int updated_speed = update_speed(current_speed, FWD_MAX_SPEED);
     current_speed = updated_speed;
-    motor_write(updated_speed+1,L_F_motorPin);
-    motor_write(updated_speed-1,R_F_motorPin);    
+    motor_write(updated_speed+2,L_F_motorPin);
+    motor_write(updated_speed-2,R_F_motorPin);    
   }
   else if (rc_commands.rc_left < RC_LEFT_SET_BW_MAX && rc_commands.rc_left > RC_LEFT_SET_BW_MIN) //Backward
   {
@@ -138,8 +158,8 @@ RC_Vals rc_task(){
     digitalWrite(R_F_DirectionPin, HIGH);
     int updated_speed = update_speed(current_speed, BKWD_MAX_SPEED);
     current_speed = updated_speed;
-    motor_write(updated_speed+5,L_F_motorPin);
-    motor_write(updated_speed+5,R_F_motorPin);     
+    motor_write(updated_speed+3,L_F_motorPin);
+    motor_write(updated_speed-4,R_F_motorPin);     
   }
 
   else if (rc_commands.rc_right < RC_RIGHT_SET_FW_MAX && rc_commands.rc_right > RC_RIGHT_SET_FW_MIN) //Right Turn
@@ -163,6 +183,7 @@ RC_Vals rc_task(){
     motor_write(0,R_F_motorPin);
   }
   if (rc_commands.sw_a < RC_SWA_HIGH_MAX && rc_commands.sw_a > RC_SWA_HIGH_MIN) //Swa triggered
+  //if (rc_commands.sw_a < RC_SWA_LOW_MAX && rc_commands.sw_a > RC_SWA_LOW_MIN) //Swa triggered INVERTED
   {
     current_speed = 80;
     motor_write(0,L_F_motorPin);

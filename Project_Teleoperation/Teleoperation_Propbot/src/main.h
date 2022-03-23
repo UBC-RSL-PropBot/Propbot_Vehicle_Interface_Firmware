@@ -38,6 +38,8 @@ uint8_t L_F_BrakePin         = 51;
 // CH5 - SwA range
 #define RC_SWA_HIGH_MAX             2000
 #define RC_SWA_HIGH_MIN             1900
+#define RC_SWA_LOW_MAX              1000
+#define RC_SWA_LOW_MIN              950
 
 #define DelayTimeForwardRight   = 200
 #define DelayTimeBackwardRight  = 200

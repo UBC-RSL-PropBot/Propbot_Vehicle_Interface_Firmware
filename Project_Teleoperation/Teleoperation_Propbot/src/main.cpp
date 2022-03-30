@@ -63,7 +63,7 @@ void loop()
   int sonar_val = digitalRead(2);
   int next_state = state;
   autonomy_switch = (rc_commands.sw_b < RC_SWA_HIGH_MAX && rc_commands.sw_b > RC_SWA_HIGH_MIN);
-  bool soft_estop = (rc_commands.sw_a < RC_SWA_HIGH_MAX && rc_commands.sw_a > RC_SWA_HIGH_MIN);
+  bool soft_estop = (rc_commands.sw_a < RC_SWA_LOW_MAX && rc_commands.sw_a > RC_SWA_LOW_MIN);
   pwm_left.data = 2;
   talker_left.publish( &pwm_left );
 
@@ -137,7 +137,7 @@ void loop()
 RC_Vals rc_task(){
   RC_Vals rc_commands;
   rc_commands = fetch_rc_commands();
-  if (rc_commands.sw_a < RC_SWA_HIGH_MAX && rc_commands.sw_a > RC_SWA_HIGH_MIN) //Swa triggered
+  if (rc_commands.sw_a < RC_SWA_LOW_MAX && rc_commands.sw_a > RC_SWA_LOW_MIN) //Swa triggered
   {
     current_speed = 80;
     motor_write(0,L_F_motorPin);
@@ -182,8 +182,8 @@ RC_Vals rc_task(){
     motor_write(0,L_F_motorPin);
     motor_write(0,R_F_motorPin);
   }
-  if (rc_commands.sw_a < RC_SWA_HIGH_MAX && rc_commands.sw_a > RC_SWA_HIGH_MIN) //Swa triggered
-  //if (rc_commands.sw_a < RC_SWA_LOW_MAX && rc_commands.sw_a > RC_SWA_LOW_MIN) //Swa triggered INVERTED
+  //if (rc_commands.sw_a < RC_SWA_HIGH_MAX && rc_commands.sw_a > RC_SWA_HIGH_MIN) //Swa triggered
+  if (rc_commands.sw_a < RC_SWA_LOW_MAX && rc_commands.sw_a > RC_SWA_LOW_MIN) //Swa triggered INVERTED
   {
     current_speed = 80;
     motor_write(0,L_F_motorPin);

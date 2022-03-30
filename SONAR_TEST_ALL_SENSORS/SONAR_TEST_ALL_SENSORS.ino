@@ -30,22 +30,22 @@ void setup(){
 void loop()
 {
   // (OPTIONAL) Read a sensor at the default address
-  sensor_val_1 = 0;//read_the_sensor_example(218);
+  sensor_val_1 = read_the_sensor_example(218);
   digitalWrite(2,(sensor_val_1|sensor_val_2|sensor_val_3|sensor_val_4|sensor_val_5|sensor_val_6));
-  Serial.print("BOOL:");Serial.println(sensor_val_1);
-  sensor_val_2 = read_the_sensor_example(208);
+  //Serial.print("BOOL:");Serial.println(sensor_val_1);
+  sensor_val_2 = 0;// read_the_sensor_example(208);
   digitalWrite(2,(sensor_val_1|sensor_val_2|sensor_val_3|sensor_val_4|sensor_val_5|sensor_val_6));
-  Serial.print("BOOL:");Serial.println(sensor_val_2);
+  //Serial.print("BOOL:");Serial.println(sensor_val_2);
   sensor_val_3 = read_the_sensor_example(204);
-  Serial.print("BOOL:");Serial.println(sensor_val_3);
+  //Serial.print("BOOL:");Serial.println(sensor_val_3);
   digitalWrite(2,(sensor_val_1|sensor_val_2|sensor_val_3|sensor_val_4|sensor_val_5|sensor_val_6));
-  sensor_val_4 = read_the_sensor_example(200);
-  Serial.print("BOOL:");Serial.println(sensor_val_4);
+  sensor_val_4 = 0; //read_the_sensor_example(200);
+  //Serial.print("BOOL:");Serial.println(sensor_val_4);
   digitalWrite(2,(sensor_val_1|sensor_val_2|sensor_val_3|sensor_val_4|sensor_val_5|sensor_val_6));
-  sensor_val_5 = 0;//read_the_sensor_example(212);
-  Serial.print("BOOL:");Serial.println(sensor_val_5);
-  digitalWrite(2,(sensor_val_1|sensor_val_2|sensor_val_3|sensor_val_4|sensor_val_5|sensor_val_6));
-  sensor_val_6 = 0;//read_the_sensor_example(214);
+  sensor_val_5 = 0;// read_the_sensor_example(212);
+  //Serial.print("BOOL:");Serial.println(sensor_val_5);
+  //digitalWrite(2,(sensor_val_1|sensor_val_2|sensor_val_3|sensor_val_4|sensor_val_5|sensor_val_6));
+  sensor_val_6 = read_the_sensor_example(214);
   //Serial.print("BOOL:");Serial.println(sensor_val_6);
   digitalWrite(2,(sensor_val_1|sensor_val_2|sensor_val_3|sensor_val_4|sensor_val_5|sensor_val_6));
   //200 / 204/ 208/218

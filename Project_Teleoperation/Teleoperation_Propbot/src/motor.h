@@ -7,7 +7,7 @@
 #define FWD_MIN_SPEED      85
 #define FWD_MAX_SPEED      105
 #define BKWD_MIN_SPEED     85
-#define BKWD_MAX_SPEED     110
+#define BKWD_MAX_SPEED     105
 #define RIGHT_SPEED        105
 #define LEFT_SPEED         105
 

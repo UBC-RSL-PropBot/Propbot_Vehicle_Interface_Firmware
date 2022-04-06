@@ -1,4 +1,3 @@
-
 #include "main.h"
 #include "fetch_rc.h"
 #include "motor.h"
@@ -29,11 +28,8 @@ pwm_right.data = msg_right.data;
 talker_right.publish( &pwm_right );
 }
 
-
 ros::Subscriber<std_msgs::UInt8> listener_left("left_wheel", callback_left);
 ros::Subscriber<std_msgs::UInt8> listener_right("right_wheel", callback_right);
-
-
 
 void setup(){
   Serial.begin(9600);
@@ -64,7 +60,6 @@ void loop()
   int next_state = state;
   autonomy_switch = (rc_commands.sw_b < RC_SWA_HIGH_MAX && rc_commands.sw_b > RC_SWA_HIGH_MIN);
   bool soft_estop = (rc_commands.sw_a < RC_SWA_LOW_MAX && rc_commands.sw_a > RC_SWA_LOW_MIN);
-  pwm_left.data = 2;
   talker_left.publish( &pwm_left );
 
   switch(state){
@@ -102,8 +97,6 @@ void loop()
         if (changed_state){
             node.logwarn("Switched to RC mode");
          }
-        //
-        pwm_left.data = 5;
         talker_left.publish( &pwm_left );
         rc_commands = rc_task();
         break;
